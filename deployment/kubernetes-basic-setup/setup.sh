@@ -15,6 +15,7 @@ kubectl apply -f postgres.yaml
 kubectl apply -f keycloak.yaml
 kubectl apply -f service.yaml
 kubectl apply -f app.yaml
+kubectl apply -f ingress.yaml
 
 echo "Configuring internal host aliases..."
 KEYCLOAK_IP=$(kubectl get svc keycloak -n price-provider -o jsonpath='{.spec.clusterIP}')
