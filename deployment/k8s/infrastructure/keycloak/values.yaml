@@ -1,0 +1,46 @@
+replicaCount: 1
+
+image:
+  repository: quay.io/keycloak/keycloak
+  tag: 26.0.0
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+httpRoute:
+  enabled: false
+  parentRefs: []
+  hostnames: []
+  matches:
+    - path:
+        type: PathPrefix
+        value: /
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1024Mi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+env:
+  keycloakAdmin: admin
+  keycloakAdminPassword: admin
+
+args:
+  - "start-dev"
+  - "--import-realm"
+
+readinessProbe:
+  httpGet:
+    path: /realms/priceprovider
+    port: 8080
+  initialDelaySeconds: 40
+  periodSeconds: 15
